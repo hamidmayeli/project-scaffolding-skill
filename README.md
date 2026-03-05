@@ -17,13 +17,13 @@ This skill guides an AI coding agent through an interactive requirements-gatheri
 ## Install
 
 ```bash
-npx skills add <owner>/project-scaffolding-skill
+npx skills add hamidmayeli/project-scaffolding-skill
 ```
 
 Or install to specific agents:
 
 ```bash
-npx skills add <owner>/project-scaffolding-skill -a claude-code -a cursor -a github-copilot
+npx skills add hamidmayeli/project-scaffolding-skill -a claude-code -a cursor -a github-copilot
 ```
 
 ## Usage
@@ -80,9 +80,8 @@ skills/
 
 ## Contributing
 
-Contributions are welcome! Feel free to open issues or submit pull requests.
+Contributions are welcome! Feel free to open issues or submit pull requests on [GitHub](https://github.com/hamidmayeli/project-scaffolding-skill).
 
 ## License
 
-MIT
-# project-scaffolding-skill
+[MIT](LICENSE)
