@@ -9,7 +9,7 @@ description: >
   or "generate project boilerplate".
 metadata:
   author: community
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # Project Scaffolding
@@ -373,6 +373,7 @@ Ask the user:
 7. **Tests?**
    - **Unit (component) tests**: Jest (default), Vitest, or other?
    - **Integration tests**: Playwright (default), Cypress, or other? Test against fake server or actual backend?
+8. **Package manager**: pnpm (default), npm, or yarn?
 
 ### React + Vite (default)
 
@@ -496,7 +497,7 @@ If dark theme is requested:
 
 ## Part 5: E2E Testing (Full-Stack)
 
-This is a **project-level** E2E test suite that lives **outside** both `backend/` and `frontend/` folders. It tests the full stack (backend + frontend) together.
+This is a **project-level** E2E test suite that lives **outside** both `backend/` and `frontend/` folders. It tests the full stack (backend + frontend) together. It should use the same package manager as the frontend for consistency.
 
 Ask the user:
 1. **Framework**: Playwright (default), Cypress, or other?
@@ -652,7 +653,7 @@ indent_size = 2
 
 1. **Greet the user** and ask: "Which parts do you want in your new project?" Present the 5 top-level options
 2. **For each selected part**, ask the detailed follow-up questions listed above
-3. **Confirm the full plan** with the user before generating any files: show a summary table of all selections
+3. **Confirm the full plan** with the user before generating any files: show a summary table of all selections. Also create a roadmap/todo list of the steps to generate the project.
 4. **Generate the project structure** — create all directories and files
 5. **Generate file contents** — populate each file with working boilerplate code based on selections
 6. **Provide next steps** — tell the user what commands to run to get started
