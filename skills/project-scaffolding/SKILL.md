@@ -51,7 +51,7 @@ If the user wants GitHub Actions, ask which workflow(s) they need (they can pick
 
 ### PR Build Workflow
 
-If selected, create `.github/workflows/pr-build.yml`:
+If selected, create `.github/workflows/build.yml`:
 
 ```yaml
 name: PR Build
@@ -65,104 +65,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup environment
-        # Adjust based on backend/frontend tech stack chosen
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Run tests
-        run: npm test
-
-      - name: Publish pre-release
-        run: |
-          echo "Publishing pre-release package for PR #${{ github.event.pull_request.number }}"
-          # Add actual publish commands based on the package registry
+...
 ```
 
 ### Commit Build Workflow
 
-If selected, create `.github/workflows/commit-build.yml`:
+If selected, add a new trigger to `.github/workflows/build.yml` and a step to publish the latest version:
 
 ```yaml
-name: Commit Build
-
 on:
   push:
     branches: [main]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
+...
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Run tests
-        run: npm test
-
-      - name: Publish latest
+      - name: publish latest version
         run: |
-          echo "Publishing latest package from commit ${{ github.sha }}"
+          echo "Publishing latest version"
           # Add actual publish commands based on the package registry
+
 ```
 
 ### Tag Build Workflow
 
-If selected, create `.github/workflows/tag-build.yml`:
+If selected, add new triggers to `.github/workflows/build.yml` and a step to publish the stable version:
 
 ```yaml
-name: Tag Build
-
 on:
   push:
     tags: ['v*']
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
+...
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Run tests
-        run: npm test
-
-      - name: Publish stable version
+      - name: publish stable version
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          echo "Publishing stable version $VERSION"
+          echo "Publishing stable version"
           # Add actual publish commands based on the package registry
 ```
 
-**Adapt workflows** to the chosen tech stack. For C# backends, use `actions/setup-dotnet@v4` and `dotnet build`/`dotnet test`/`dotnet publish`. For Node.js, use the templates above. If both backend and frontend exist, create jobs for each or a matrix build.
+**Adapt workflows** to the chosen tech stack. If dockerized use docker to build, test and etc. For C# backends, use `actions/setup-dotnet@v4` and `dotnet build`/`dotnet test`/`dotnet publish`. For Node.js, use the templates above. If both backend and frontend exist, create jobs for each or a matrix build.
 
 ---
 
@@ -239,6 +178,8 @@ Ask the user:
 
 Create the following structure:
 
+**Key points:**: regardless of the choices, you should use latest syntax and best practices.
+
 ```
 backend/
 ├── src/
@@ -258,7 +199,7 @@ backend/
 │       └── <ProjectName>.E2ETests.csproj
 ├── Dockerfile          (if containerized)
 ├── docker-compose.yml  (if containerized)
-└── <ProjectName>.sln
+└── <ProjectName>.slnx
 ```
 
 **Key C# details:**
@@ -710,3 +651,4 @@ Ask: "Does this look correct? Should I proceed with generating the project?"
 - **Environment variables** should use `.env` files with `.env.example` committed as a template
 - **Docker Compose** should be used when multiple services need to run together
 - **All test commands** should be runnable independently (unit, integration, e2e)
+- **No project specific code** you don't need to write actual application logic, just the boilerplate and structure to get started immediately.
